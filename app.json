@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "ExpenseTracker",
+    "slug": "expense-tracker",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1C1C1E"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#1C1C1E"
+      },
+      "package": "com.dcs.expensetracker",
+      "permissions": [
+        "READ_SMS",
+        "RECEIVE_SMS"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.0",
+            "ndkVersion": "26.1.10909125"
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a7f35959-ffa1-42dc-971d-fb417471dfee"
+      }
+    }
+  }
+}
