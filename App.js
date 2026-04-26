@@ -12,7 +12,7 @@ import TransactionsHistoryScreen from './screens/TransactionsHistoryScreen';
 import AddExpenseScreen from './screens/AddExpenseScreen'; 
 import EditProfileScreen from './screens/EditProfileScreen'; 
 import StatsScreen from './screens/StatsScreen'; 
-import TapToPayScreen from './screens/TapToPayScreen'; // NEW SCREEN
+import TapToPayScreen from './screens/TapToPayScreen'; 
 
 const Stack = createNativeStackNavigator();
 

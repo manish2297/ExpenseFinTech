@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { PieChart, BarChart } from "react-native-chart-kit";
 import { TransactionStore } from '../store';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -17,6 +19,35 @@ export default function StatsScreen({ navigation }) {
   }, []);
 
   const expenses = transactions.filter(t => t.isExpense);
+
+  const exportToCSV = async () => {
+    try {
+      const txData = TransactionStore.data;
+      if (txData.length === 0) {
+        Alert.alert("Empty", "No transactions to export!");
+        return;
+      }
+
+      let csvString = "Date,Title,Category,Amount,Type\n";
+      txData.forEach(tx => {
+        const cleanAmount = tx.amount.replace(/[^\d.-]/g, '');
+        const type = tx.isExpense ? "Debit" : "Credit";
+        csvString += `${tx.date},${tx.title},${tx.subtitle},${cleanAmount},${type}\n`;
+      });
+
+      const fileUri = FileSystem.documentDirectory + "Monthly_Ledger.csv";
+      await FileSystem.writeAsStringAsync(fileUri, csvString, { encoding: FileSystem.EncodingType.UTF8 });
+
+      await Sharing.shareAsync(fileUri, {
+        mimeType: 'text/csv',
+        dialogTitle: 'Export Ledger',
+        UTI: 'public.comma-separated-values-text'
+      });
+    } catch (error) {
+      console.error("Export failed:", error);
+      Alert.alert("Error", "Failed to export data.");
+    }
+  };
 
   const catMap = {};
   expenses.forEach(t => { 
@@ -59,7 +90,11 @@ export default function StatsScreen({ navigation }) {
           <Ionicons name="chevron-back" size={24} color="#333" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Analytics</Text>
-        <View style={{ width: 40 }} />
+        
+        {/* Export to CSV Button */}
+        <TouchableOpacity onPress={exportToCSV} style={styles.backBtn}>
+          <Ionicons name="download-outline" size={22} color="#05A46D" />
+        </TouchableOpacity>
       </View>
       
       <ScrollView showsVerticalScrollIndicator={false}>
