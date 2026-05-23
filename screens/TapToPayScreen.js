@@ -26,7 +26,7 @@ export default function TapToPayScreen({ navigation }) {
         title: 'Coffee Shop', 
         subtitle: 'Tap to Pay via NFC',
         amount: '-₹ 350',
-        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
         icon: 'cafe-outline',
         color: '#FF9500',
         isExpense: true

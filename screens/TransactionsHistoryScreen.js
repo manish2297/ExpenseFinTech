@@ -17,15 +17,38 @@ export default function TransactionsHistoryScreen({ navigation }) {
   }, []);
 
   const grouped = useMemo(() => {
-    const filtered = data.filter(t => t.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filtered = data.filter(t => t && t.title && t.title.toLowerCase().includes(searchQuery.toLowerCase()));
     const map = {};
     filtered.forEach(tx => {
-      const parts = tx.date.split(' ');
-      const key = `${parts[0]} ${parts[2]}`; 
+      if (!tx) return;
+
+      let key = 'Unknown Date';
+      if (tx.date) {
+        const parsedDate = new Date(tx.date);
+        if (!isNaN(parsedDate.getTime())) {
+          key = parsedDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        } else {
+          const parts = tx.date.split(/[ ,]+/);
+          if (parts.length >= 2) {
+            const month = parts[0];
+            const year = parts[2] || new Date().getFullYear().toString();
+            key = `${month} ${year}`;
+          } else {
+            key = tx.date;
+          }
+        }
+      }
+
       if (!map[key]) map[key] = { title: key, data: [], inc: 0, exp: 0 };
       map[key].data.push(tx);
-      const val = Math.abs(parseFloat(tx.amount.replace(/[^\d.-]/g, ''))) || 0;
-      if (tx.isExpense) map[key].exp += val; else map[key].inc += val;
+
+      const amountStr = tx.amount ? String(tx.amount) : '0';
+      const val = Math.abs(parseFloat(amountStr.replace(/[^\d.-]/g, ''))) || 0;
+      if (tx.isExpense) {
+        map[key].exp += val;
+      } else {
+        map[key].inc += val;
+      }
     });
     return Object.values(map);
   }, [data, searchQuery]);

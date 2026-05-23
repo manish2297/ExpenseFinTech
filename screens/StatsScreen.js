@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { PieChart, BarChart } from "react-native-chart-kit";
 import { TransactionStore } from '../store';
-import * as FileSystem from 'expo-file-system';
+import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
 const screenWidth = Dimensions.get("window").width;
@@ -23,20 +23,33 @@ export default function StatsScreen({ navigation }) {
   const exportToCSV = async () => {
     try {
       const txData = TransactionStore.data;
-      if (txData.length === 0) {
+      if (!txData || txData.length === 0) {
         Alert.alert("Empty", "No transactions to export!");
         return;
       }
 
       let csvString = "Date,Title,Category,Amount,Type\n";
       txData.forEach(tx => {
-        const cleanAmount = tx.amount.replace(/[^\d.-]/g, '');
+        if (!tx) return;
+        const amountStr = tx.amount ? String(tx.amount) : '0';
+        const cleanAmount = amountStr.replace(/[^\d.-]/g, '');
         const type = tx.isExpense ? "Debit" : "Credit";
-        csvString += `${tx.date},${tx.title},${tx.subtitle},${cleanAmount},${type}\n`;
+        
+        const dateStr = tx.date ? String(tx.date) : '';
+        const titleStr = tx.title ? String(tx.title) : '';
+        const subtitleStr = tx.subtitle ? String(tx.subtitle) : '';
+
+        // Standard CSV escaping (wrap in quotes, escape existing quotes)
+        const escapedDate = dateStr.replace(/"/g, '""');
+        const escapedTitle = titleStr.replace(/"/g, '""');
+        const escapedSubtitle = subtitleStr.replace(/"/g, '""');
+        
+        csvString += `"${escapedDate}","${escapedTitle}","${escapedSubtitle}","${cleanAmount}","${type}"\n`;
       });
 
-      const fileUri = FileSystem.documentDirectory + "Monthly_Ledger.csv";
-      await FileSystem.writeAsStringAsync(fileUri, csvString, { encoding: FileSystem.EncodingType.UTF8 });
+      const file = new File(Paths.document, "Monthly_Ledger.csv");
+      file.write(csvString);
+      const fileUri = file.uri;
 
       await Sharing.shareAsync(fileUri, {
         mimeType: 'text/csv',
@@ -45,14 +58,17 @@ export default function StatsScreen({ navigation }) {
       });
     } catch (error) {
       console.error("Export failed:", error);
-      Alert.alert("Error", "Failed to export data.");
+      Alert.alert("Error", `Failed to export data: ${error.message || error}`);
     }
   };
 
   const catMap = {};
   expenses.forEach(t => { 
-    const amount = Math.abs(parseFloat(t.amount.replace(/[^\d.-]/g, '')));
-    catMap[t.subtitle] = (catMap[t.subtitle] || 0) + amount; 
+    if (!t) return;
+    const amountStr = t.amount ? String(t.amount) : '0';
+    const amount = Math.abs(parseFloat(amountStr.replace(/[^\d.-]/g, ''))) || 0;
+    const cat = t.subtitle || 'Uncategorized';
+    catMap[cat] = (catMap[cat] || 0) + amount; 
   });
   
   const pieData = Object.keys(catMap).map((key, i) => ({ 
@@ -65,8 +81,10 @@ export default function StatsScreen({ navigation }) {
 
   const dayMap = {};
   expenses.slice(0, 7).forEach(t => { 
-    const shortDate = t.date.split(',')[0]; 
-    const amount = Math.abs(parseFloat(t.amount.replace(/[^\d.-]/g, '')));
+    if (!t || !t.date) return;
+    const shortDate = String(t.date).split(',')[0]; 
+    const amountStr = t.amount ? String(t.amount) : '0';
+    const amount = Math.abs(parseFloat(amountStr.replace(/[^\d.-]/g, ''))) || 0;
     dayMap[shortDate] = (dayMap[shortDate] || 0) + amount; 
   });
   

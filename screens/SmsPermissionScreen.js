@@ -6,16 +6,6 @@ import { TransactionStore } from '../store';
 export default function SmsPermissionScreen({ onGrant }) {
   
   const requestRealSmsPermission = async () => {
-    
-    // 🚨 DEVELOPMENT BYPASS: 
-    // Since Expo Go cannot show SMS popups, we will fake a successful grant here 
-    // so you can actually test the rest of your app!
-    // NOTE: Delete these next 3 lines when you are ready to build the real APK.
-    console.log("DEV MODE: Bypassing native SMS check for Expo Go.");
-    await TransactionStore.grantSmsPermission();
-    return onGrant(); 
-    // --------------------------------------------------------------------------
-
     if (Platform.OS !== 'android') {
       Alert.alert("Not Supported", "SMS reading is only available on Android.");
       return;
