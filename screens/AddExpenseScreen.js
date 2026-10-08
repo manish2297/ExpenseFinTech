@@ -85,8 +85,21 @@ export default function AddExpenseScreen({ navigation, route }) {
             </TouchableOpacity>
           ))}
         </ScrollView>
-        <TextInput style={styles.input} placeholder="Description" value={title} onChangeText={setTitle} />
-        <TextInput style={styles.input} placeholder="Amount (₹)" keyboardType="numeric" value={amount} onChangeText={setAmount} />
+        <TextInput 
+          style={styles.input} 
+          placeholder="Description" 
+          placeholderTextColor="#888888" 
+          value={title} 
+          onChangeText={setTitle} 
+        />
+        <TextInput 
+          style={styles.input} 
+          placeholder="Amount (₹)" 
+          placeholderTextColor="#888888" 
+          keyboardType="numeric" 
+          value={amount} 
+          onChangeText={setAmount} 
+        />
         <TouchableOpacity style={styles.input} onPress={() => setShow(true)}><Text style={{color:'#333'}}>{date.toDateString()}</Text></TouchableOpacity>
         {show && <DateTimePicker value={date} mode="date" display="default" onChange={(e, d) => { setShow(false); if(d) setDate(d); }} />}
         <TouchableOpacity style={styles.btn} onPress={save}><Text style={styles.btnT}>Confirm</Text></TouchableOpacity>
@@ -99,7 +112,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', justifyContent: 'space-between', padding: 20, alignItems: 'center' },
   title: { fontSize: 18, fontWeight: 'bold', color: '#333' },
   label: { fontSize: 12, color: '#888', marginBottom: 10, fontWeight: '700' },
-  input: { backgroundColor: '#F5F6F8', borderRadius: 16, padding: 18, marginBottom: 15, fontSize: 15, color: '#333' },
+  input: { backgroundColor: '#F5F6F8', borderRadius: 16, padding: 18, marginBottom: 15, fontSize: 15, color: '#1C1C1E' },
   chip: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15, paddingVertical: 10, borderRadius: 20, borderWidth: 1, borderColor: '#EEE', marginRight: 10 },
   chipT: { marginLeft: 5, fontSize: 13, fontWeight: '600', color: '#555' },
   btn: { backgroundColor: '#05A46D', padding: 18, borderRadius: 16, alignItems: 'center', marginTop: 10, elevation: 2 },

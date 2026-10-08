@@ -38,8 +38,28 @@ export default function EditProfileScreen({ navigation }) {
         </TouchableOpacity>
         <Text style={styles.instructionText}>Tap to change avatar</Text>
         <View style={styles.row}>
-          <View style={{ flex: 1, marginRight: 10 }}><Text style={styles.label}>First Name</Text><TextInput style={styles.input} placeholder="First" value={firstName} onChangeText={setFirstName} autoCorrect={false} /></View>
-          <View style={{ flex: 1, marginLeft: 10 }}><Text style={styles.label}>Last Name</Text><TextInput style={styles.input} placeholder="Last" value={lastName} onChangeText={setLastName} autoCorrect={false} /></View>
+          <View style={{ flex: 1, marginRight: 10 }}>
+            <Text style={styles.label}>First Name</Text>
+            <TextInput 
+              style={styles.input} 
+              placeholder="First" 
+              placeholderTextColor="#888888" 
+              value={firstName} 
+              onChangeText={setFirstName} 
+              autoCorrect={false} 
+            />
+          </View>
+          <View style={{ flex: 1, marginLeft: 10 }}>
+            <Text style={styles.label}>Last Name</Text>
+            <TextInput 
+              style={styles.input} 
+              placeholder="Last" 
+              placeholderTextColor="#888888" 
+              value={lastName} 
+              onChangeText={setLastName} 
+              autoCorrect={false} 
+            />
+          </View>
         </View>
         <Text style={styles.label}>Date of Birth</Text>
         <TouchableOpacity style={styles.datePickerBtn} onPress={() => setShowDatePicker(true)}><Text style={styles.dateText}>{dob.toDateString()}</Text><Ionicons name="calendar-outline" size={20} color="#888" /></TouchableOpacity>

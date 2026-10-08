@@ -63,7 +63,7 @@ export default function TransactionsHistoryScreen({ navigation }) {
 
       <View style={styles.searchBarC}>
         <Ionicons name="search" size={20} color="#999" />
-        <TextInput style={styles.searchInput} placeholder="Search" placeholderTextColor="#999" value={searchQuery} onChangeText={setSearchQuery} autoCorrect={false} />
+        <TextInput style={styles.searchInput} placeholder="Search" placeholderTextColor="#888888" value={searchQuery} onChangeText={setSearchQuery} autoCorrect={false} />
         {searchQuery.length > 0 && <TouchableOpacity onPress={() => setSearchQuery('')}><Ionicons name="close-circle" size={18} color="#CCC" /></TouchableOpacity>}
       </View>
 

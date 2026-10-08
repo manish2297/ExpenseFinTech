@@ -63,7 +63,7 @@ export default function LoginScreen({ onLogin }) {
           secureTextEntry={true} 
           autoFocus={true}
           placeholder="••••"
-          placeholderTextColor="#CCC"
+          placeholderTextColor="#888888"
         />
 
         <TouchableOpacity style={styles.button} onPress={handlePress}>

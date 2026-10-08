@@ -320,7 +320,7 @@ export default function AddCardScreen({ navigation }) {
             <TextInput
               style={styles.input}
               placeholder="4532 0000 0000 0000"
-              placeholderTextColor="#999"
+              placeholderTextColor="#888888"
               value={cardNumber}
               onChangeText={handleCardNumberChange}
               keyboardType="number-pad"
@@ -340,7 +340,7 @@ export default function AddCardScreen({ navigation }) {
             <TextInput
               style={styles.input}
               placeholder="e.g. JOHN DOE"
-              placeholderTextColor="#999"
+              placeholderTextColor="#888888"
               value={holderName}
               onChangeText={setHolderName}
               autoCapitalize="characters"
@@ -357,7 +357,7 @@ export default function AddCardScreen({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder="MM/YY"
-                  placeholderTextColor="#999"
+                  placeholderTextColor="#888888"
                   value={expiry}
                   onChangeText={handleExpiryChange}
                   keyboardType="number-pad"
@@ -373,7 +373,7 @@ export default function AddCardScreen({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder="123"
-                  placeholderTextColor="#999"
+                  placeholderTextColor="#888888"
                   value={cvv}
                   onChangeText={setCvv}
                   keyboardType="number-pad"
@@ -391,7 +391,7 @@ export default function AddCardScreen({ navigation }) {
             <TextInput
               style={styles.input}
               placeholder="25,000"
-              placeholderTextColor="#999"
+              placeholderTextColor="#888888"
               value={balance}
               onChangeText={setBalance}
               keyboardType="numeric"
