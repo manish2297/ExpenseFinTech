@@ -14,6 +14,7 @@ import EditProfileScreen from './screens/EditProfileScreen';
 import StatsScreen from './screens/StatsScreen'; 
 import TapToPayScreen from './screens/TapToPayScreen'; 
 import AddCardScreen from './screens/AddCardScreen'; 
+import AddBankAccountScreen from './screens/AddBankAccountScreen'; 
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,16 @@ export default function App() {
     checkAppState();
   }, []);
 
+  const renderLogin = React.useCallback(
+    (props) => <LoginScreen {...props} onLogin={() => setIsAuthenticated(true)} />,
+    []
+  );
+
+  const renderSms = React.useCallback(
+    (props) => <SmsPermissionScreen {...props} onGrant={() => setHasGrantedPermission(true)} />,
+    []
+  );
+
   if (isLoading) return <View style={{ flex: 1, justifyContent: 'center' }}><ActivityIndicator size="large" color="#05A46D" /></View>;
 
   return (
@@ -45,15 +56,11 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           
           {!isAuthenticated ? (
-            <Stack.Screen name="Login">
-              {(props) => <LoginScreen {...props} onLogin={() => setIsAuthenticated(true)} />}
-            </Stack.Screen>
+            <Stack.Screen name="Login" children={renderLogin} />
           ) : 
           
           !hasGrantedPermission ? (
-            <Stack.Screen name="SmsPermission">
-              {(props) => <SmsPermissionScreen {...props} onGrant={() => setHasGrantedPermission(true)} />}
-            </Stack.Screen>
+            <Stack.Screen name="SmsPermission" children={renderSms} />
           ) : 
           
           (
@@ -65,6 +72,7 @@ export default function App() {
               <Stack.Screen name="Stats" component={StatsScreen} />
               <Stack.Screen name="TapToPay" component={TapToPayScreen} /> 
               <Stack.Screen name="AddCard" component={AddCardScreen} />
+              <Stack.Screen name="AddBankAccount" component={AddBankAccountScreen} />
             </>
           )}
 

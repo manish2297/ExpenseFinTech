@@ -69,6 +69,7 @@ export default function TransactionsHistoryScreen({ navigation }) {
 
       <SectionList
         sections={grouped}
+        keyExtractor={(item, index) => (item?.id ? String(item.id) : String(index))}
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
         stickySectionHeadersEnabled={false}
@@ -81,18 +82,24 @@ export default function TransactionsHistoryScreen({ navigation }) {
             </View>
           </View>
         )}
-        renderItem={({ item }) => (
-          <View style={styles.transactionRow}>
-            <View style={styles.transactionLeft}>
-               <View style={[styles.transactionIconC, {backgroundColor: item.color + '15'}]}><Ionicons name={item.icon} size={20} color={item.color} /></View>
-               <View><Text style={styles.rtTitle}>{item.title}</Text><Text style={styles.rtSubtitle}>{item.subtitle}</Text></View>
+        renderItem={({ item }) => {
+          const itemColor = item?.color || '#05A46D';
+          const itemIcon = item?.icon || 'card-outline';
+          return (
+            <View style={styles.transactionRow}>
+              <View style={styles.transactionLeft}>
+                 <View style={[styles.transactionIconC, { backgroundColor: itemColor + '15' }]}>
+                   <Ionicons name={itemIcon} size={20} color={itemColor} />
+                 </View>
+                 <View><Text style={styles.rtTitle}>{item?.title || ''}</Text><Text style={styles.rtSubtitle}>{item?.subtitle || ''}</Text></View>
+              </View>
+              <View style={styles.transactionRight}>
+                 <Text style={[styles.rtAmount, { color: item?.isExpense ? '#FF3B30' : '#05A46D' }]}>{item?.amount || '0'}</Text>
+                 <Text style={styles.rtDate}>{item?.date || ''}</Text>
+              </View>
             </View>
-            <View style={styles.transactionRight}>
-               <Text style={[styles.rtAmount, {color: item.isExpense ? '#FF3B30' : '#05A46D'}]}>{item.amount}</Text>
-               <Text style={styles.rtDate}>{item.date}</Text>
-            </View>
-          </View>
-        )}
+          );
+        }}
       />
     </SafeAreaView>
   );

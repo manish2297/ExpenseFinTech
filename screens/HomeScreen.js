@@ -39,8 +39,16 @@ export default function HomeScreen({ navigation }) {
     return 'Good Night!';
   };
 
-  const handleAddCard = () => {
-    navigation.navigate('AddCard');
+  const handleAddPaymentMethod = () => {
+    Alert.alert(
+      "Add Account or Card",
+      "Choose what you would like to add:",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "🏦 Bank Account", onPress: () => navigation.navigate('AddBankAccount') },
+        { text: "💳 Debit / Credit Card", onPress: () => navigation.navigate('AddCard') }
+      ]
+    );
   };
 
   const handleDeleteCard = (id) => {
@@ -81,16 +89,16 @@ export default function HomeScreen({ navigation }) {
           snapToInterval={screenWidth * 0.8 + 15}
           decelerationRate="fast"
         >
-          {wallets.map((wallet) => (
+          {wallets.map((wallet, index) => (
             <TouchableOpacity 
-              key={wallet.id} 
+              key={wallet?.id ? String(wallet.id) : String(index)} 
               activeOpacity={0.9}
               onLongPress={() => handleDeleteCard(wallet.id)}
               style={[styles.creditCard, { backgroundColor: wallet.color }]}
             >
               <View style={styles.cardHeader}>
                 <Text style={styles.cardType}>{wallet.type}</Text>
-                <Ionicons name="card" size={24} color="rgba(255,255,255,0.5)" />
+                <Ionicons name={wallet.type === 'Bank' ? 'business' : 'card'} size={24} color="rgba(255,255,255,0.7)" />
               </View>
               
               <Text style={styles.cardBalanceLabel}>Balance</Text>
@@ -103,9 +111,9 @@ export default function HomeScreen({ navigation }) {
             </TouchableOpacity>
           ))}
           
-          <TouchableOpacity style={styles.addCardBtn} onPress={handleAddCard}>
+          <TouchableOpacity style={styles.addCardBtn} onPress={handleAddPaymentMethod}>
             <Ionicons name="add-circle-outline" size={32} color="#888" />
-            <Text style={{ color: '#888', marginTop: 5, fontSize: 12, fontWeight: '600' }}>Add Card</Text>
+            <Text style={{ color: '#888', marginTop: 5, fontSize: 12, fontWeight: '600' }}>Add</Text>
           </TouchableOpacity>
         </ScrollView>
 
@@ -128,18 +136,29 @@ export default function HomeScreen({ navigation }) {
           <TouchableOpacity onPress={() => navigation.navigate('TransactionsHistory')}><Text style={styles.seeAll}>See all</Text></TouchableOpacity>
         </View>
 
-        {transactions.slice(0, 5).map(item => (
-          <TouchableOpacity key={item.id} onLongPress={() => Alert.alert("Delete", "Remove entry?", [{ text: "Cancel" }, { text: "Delete", style: "destructive", onPress: () => TransactionStore.delete(item.id) }])} style={styles.transactionRow}>
-            <View style={styles.transactionLeft}>
-               <View style={[styles.transactionIconC, {backgroundColor: item.color + '15'}]}><Ionicons name={item.icon} size={20} color={item.color} /></View>
-               <View><Text style={styles.rtTitle}>{item.title}</Text><Text style={styles.rtSubtitle}>{item.subtitle}</Text></View>
-            </View>
-            <View style={styles.transactionRight}>
-               <Text style={[styles.rtAmount, {color: item.isExpense ? '#FF3B30' : '#05A46D'}]}>{item.amount}</Text>
-               <Text style={styles.rtDate}>{item.date}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
+        {transactions.slice(0, 5).map((item, index) => {
+          const itemColor = item?.color || '#05A46D';
+          const itemIcon = item?.icon || 'card-outline';
+          const itemId = item?.id ? String(item.id) : String(index);
+          return (
+            <TouchableOpacity 
+              key={itemId} 
+              onLongPress={() => Alert.alert("Delete", "Remove entry?", [{ text: "Cancel" }, { text: "Delete", style: "destructive", onPress: () => TransactionStore.delete(item.id) }])} 
+              style={styles.transactionRow}
+            >
+              <View style={styles.transactionLeft}>
+                 <View style={[styles.transactionIconC, { backgroundColor: itemColor + '15' }]}>
+                   <Ionicons name={itemIcon} size={20} color={itemColor} />
+                 </View>
+                 <View><Text style={styles.rtTitle}>{item?.title || ''}</Text><Text style={styles.rtSubtitle}>{item?.subtitle || ''}</Text></View>
+              </View>
+              <View style={styles.transactionRight}>
+                 <Text style={[styles.rtAmount, { color: item?.isExpense ? '#FF3B30' : '#05A46D' }]}>{item?.amount || '0'}</Text>
+                 <Text style={styles.rtDate}>{item?.date || ''}</Text>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
       <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('AddExpense')}><Ionicons name="add" size={32} color="#fff" /></TouchableOpacity>
     </SafeAreaView>

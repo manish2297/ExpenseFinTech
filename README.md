@@ -91,6 +91,7 @@ ExpenseFinTech/
 │   ├── SmsPermissionScreen.js     # Android SMS permission onboarding
 │   ├── HomeScreen.js              # Main dashboard, greeting, card carousel & quick actions
 │   ├── AddCardScreen.js           # Card addition with OCR camera scanner & manual entry
+│   ├── AddBankAccountScreen.js    # Manual bank account addition with IFSC validation & bank presets
 │   ├── AddExpenseScreen.js        # Transaction creation with wallet & category picker
 │   ├── TransactionsHistoryScreen.js # Grouped transaction history & instant search
 │   ├── StatsScreen.js             # Charts, analytics breakdown & CSV export

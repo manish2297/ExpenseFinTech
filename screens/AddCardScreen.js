@@ -239,9 +239,17 @@ export default function AddCardScreen({ navigation }) {
           <Ionicons name="arrow-back" size={24} color="#1C1C1E" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Add Card</Text>
-        <TouchableOpacity style={styles.scanHeaderBtn} onPress={openScanner}>
-          <Ionicons name="scan-outline" size={22} color="#05A46D" />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', gap: 8 }}>
+          <TouchableOpacity 
+            style={[styles.scanHeaderBtn, { backgroundColor: '#F0F4FF' }]} 
+            onPress={() => navigation.navigate('AddBankAccount')}
+          >
+            <Ionicons name="business-outline" size={20} color="#1A237E" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.scanHeaderBtn} onPress={openScanner}>
+            <Ionicons name="scan-outline" size={22} color="#05A46D" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
