@@ -13,6 +13,7 @@ import AddExpenseScreen from './screens/AddExpenseScreen';
 import EditProfileScreen from './screens/EditProfileScreen'; 
 import StatsScreen from './screens/StatsScreen'; 
 import TapToPayScreen from './screens/TapToPayScreen'; 
+import AddCardScreen from './screens/AddCardScreen'; 
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +64,7 @@ export default function App() {
               <Stack.Screen name="EditProfile" component={EditProfileScreen} />
               <Stack.Screen name="Stats" component={StatsScreen} />
               <Stack.Screen name="TapToPay" component={TapToPayScreen} /> 
+              <Stack.Screen name="AddCard" component={AddCardScreen} />
             </>
           )}
 

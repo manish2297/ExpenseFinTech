@@ -17,8 +17,14 @@ A modern, high-performance personal finance and expense tracking mobile applicat
   - Persistent login state stored securely on-device.
 
 - **💳 Multi-Wallet & Virtual Cards**:
-  - Manage multiple bank accounts, credit cards, and virtual cards.
-  - Dynamic card styling, randomized card generation, and live balance recalculation upon transaction entry.
+  - Manage multiple bank accounts, credit cards, and virtual cards with live balance recalculation.
+  - Interactive credit card preview with customizable color themes.
+
+- **📷 Card Scanner & OCR Auto-Extraction**:
+  - Scan physical cards using device camera (`expo-camera`) or photo gallery (`expo-image-picker`).
+  - Viewfinder with animated laser scan beam and corner guides.
+  - OCR extraction engine auto-detects card number, cardholder name, expiry date, and card brand (Visa, Mastercard, RuPay, Amex).
+  - Manual input mode with real-time card formatting, Luhn/IIN brand detection, and quick-fill sample presets.
 
 - **💸 Comprehensive Expense & Income Logging**:
   - Categorized transactions (Food, Shopping, Pay Bills, Transfer, Send, Add Money).
@@ -84,11 +90,15 @@ ExpenseFinTech/
 │   ├── LoginScreen.js             # 4-digit PIN authentication & creation
 │   ├── SmsPermissionScreen.js     # Android SMS permission onboarding
 │   ├── HomeScreen.js              # Main dashboard, greeting, card carousel & quick actions
+│   ├── AddCardScreen.js           # Card addition with OCR camera scanner & manual entry
 │   ├── AddExpenseScreen.js        # Transaction creation with wallet & category picker
 │   ├── TransactionsHistoryScreen.js # Grouped transaction history & instant search
 │   ├── StatsScreen.js             # Charts, analytics breakdown & CSV export
 │   ├── TapToPayScreen.js          # Animated NFC contactless payment simulation
 │   └── EditProfileScreen.js       # User profile details and avatar picker
+│
+├── utils/
+│   └── cardScanner.js             # Card OCR parsing, brand detection & sample presets
 │
 ├── assets/                        # Icons, splash screen, and static graphics
 └── android/                       # Generated Android native project files

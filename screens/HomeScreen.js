@@ -40,16 +40,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   const handleAddCard = () => {
-    const colors = ['#1A1A1A', '#007AFF', '#AF52DE', '#FF3B30', '#FF9500'];
-    const newCard = {
-      id: Date.now().toString(),
-      type: Math.random() > 0.5 ? 'VISA' : 'MASTERCARD',
-      balance: Math.floor(Math.random() * 50000) + 1000,
-      name: user.firstName ? `${user.firstName} Card` : 'Virtual Card',
-      number: `**** **** **** ${Math.floor(1000 + Math.random() * 9000)}`,
-      color: colors[Math.floor(Math.random() * colors.length)]
-    };
-    WalletStore.add(newCard);
+    navigation.navigate('AddCard');
   };
 
   const handleDeleteCard = (id) => {

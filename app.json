@@ -25,7 +25,8 @@
       "package": "com.dcs.expensetracker",
       "permissions": [
         "READ_SMS",
-        "RECEIVE_SMS"
+        "RECEIVE_SMS",
+        "CAMERA"
       ]
     },
     "web": {
